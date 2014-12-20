@@ -6,7 +6,7 @@ var mongoose = require('mongoose'),
 var QuizSchema = new Schema({
 	title: String,
 	submissions: [{
-		user_id: { type: Schema.Types.ObjectId, ref: 'User' },
+		userID: { type: Schema.Types.ObjectId, ref: 'User' },
 		date: { type: Date, default: Date.now },
 		score: Number,
 		numberOfQuestions: Number,
@@ -16,11 +16,11 @@ var QuizSchema = new Schema({
 	questions: [
 		{ type: Schema.Types.ObjectId, ref: 'Question' }
 	],
-	course_id: Number, /*{ type: Schema.Types.ObjectId, ref: 'Course' }*/
-	set_id: [
+	courseID: Number, /*{ type: Schema.Types.ObjectId, ref: 'Course' }*/
+	setID: [
 		{ type: Schema.Types.ObjectId, ref: 'Set' }
 	],
-	author_id: { type: Schema.Types.ObjectId, ref: 'User' },
+	authorID: { type: Schema.Types.ObjectId, ref: 'User' },
 	isPublic: Boolean,
 	updated: { type: Date, default: Date.now }
 });

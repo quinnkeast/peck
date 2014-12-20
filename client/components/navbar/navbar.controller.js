@@ -3,8 +3,8 @@
 angular.module('peckApp')
   .controller('NavbarCtrl', function ($scope, $location, Auth) {
     $scope.menu = [{
-      'title': 'Home',
-      'link': '/'
+      'title': 'Quizzes',
+      'link': '/main'
     }];
 
     $scope.isCollapsed = true;

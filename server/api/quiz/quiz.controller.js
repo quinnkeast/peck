@@ -12,6 +12,17 @@ exports.index = function(req, res) {
 };
 
 // Get a single quiz
+exports.findForUser = function(req, res) {
+  Quiz.find({"authorID": req.user._id})
+  .populate('questions')
+  .exec(function (err, quiz) {
+    if(err) { return handleError(res, err); }
+    if(!quiz) { return res.send(404); }
+    return res.json(quiz);
+  });
+};
+
+// Get a single quiz
 exports.show = function(req, res) {
   Quiz.findById(req.params.id)
   .populate('questions')
@@ -39,10 +50,10 @@ exports.test = function(req, res) {
 			// without any indication of the real answer.			
 			for (var i = 0; i < quiz.questions.length; i++) {
 				
-				// Concat the other_answers array with the real answer, and create
+				// Concat the otherAnswers array with the real answer, and create
 				// an array of all possible answers called allAnswers to be returned
 				// With the response
-				var otherAnswersObject = quiz.questions[i].current.other_answers;
+				var otherAnswersObject = quiz.questions[i].current.otherAnswers;
 				var answerObject = [ quiz.questions[i].current.answer ];
 				var allAnswers = otherAnswersObject.concat(answerObject);
 				
@@ -51,7 +62,7 @@ exports.test = function(req, res) {
 				var questionObject = {
 					"_id": quiz.questions[i]._id,
 					"question": quiz.questions[i].current.content,
-					"answers": allAnswers
+					"answers": shuffle(allAnswers)
 				};
 				response.questions.push(questionObject);
 			}
@@ -62,10 +73,12 @@ exports.test = function(req, res) {
 
 // Creates a new quiz in the DB.
 exports.create = function(req, res) {
-  Quiz.create(req.body, function(err, quiz) {
-    if(err) { return handleError(res, err); }
-    return res.json(201, quiz);
-  });
+	var quiz = req.body;
+	quiz.authorID = req.user._id;
+	Quiz.create(quiz, function(err, quiz) {
+	    if(err) { return handleError(res, err); }
+	    return res.json(201, quiz);
+	});
 };
 
 // Updates an existing quiz in the DB.
@@ -111,7 +124,7 @@ exports.score = function(req, res) {
 				"details": {},
 				"results": []
 			};
-			var correct = 0;
+			var numberCorrect = 0;
 			var numberOfQuestions = req.body.answers.length;
 			var wrongAnswers = [];
 			
@@ -122,7 +135,7 @@ exports.score = function(req, res) {
 				for (var j = 0; j < quiz.questions.length; j++) {
 					
 					// We've found a question with the same ID as the submitted question & answer
-					if (quiz.questions[j]._id == req.body.answers[i].question_id) {
+					if (quiz.questions[j]._id == req.body.answers[i].questionID) {
 						
 						var status;
 						
@@ -132,7 +145,7 @@ exports.score = function(req, res) {
 							status = true;
 							
 							// Increment the number of correct answers
-							correct++;
+							numberCorrect++;
 							
 						} else {
 							
@@ -145,9 +158,9 @@ exports.score = function(req, res) {
 						
 						// Push the results into an array that we can respond with
 						submission.results.push({
-							"question_id": req.body.answers[i].question_id,
-							"correct": status,
-							"answer": quiz.questions[j].current.answer._id
+							"questionID": req.body.answers[i].questionID,
+							"isCorrect": status,
+							"correctAnswer": quiz.questions[j].current.answer._id
 						});
 						
 						break;
@@ -157,10 +170,10 @@ exports.score = function(req, res) {
 			
 			// Assemble the submission's details to be stored in the quiz
 			submission.details = {
-				"user_id": req.body.user_id,
-				"score": correct,
+				"userID": req.body.userID,
+				"score": numberCorrect,
 				"numberOfQuestions": numberOfQuestions,
-				"percentage": correct / numberOfQuestions,
+				"percentage": numberCorrect / numberOfQuestions,
 				"wrongAnswers": wrongAnswers
 			};
 			
@@ -177,4 +190,23 @@ exports.score = function(req, res) {
 
 function handleError(res, err) {
   return res.send(500, err);
+}
+
+function shuffle(array) {
+  var currentIndex = array.length, temporaryValue, randomIndex ;
+
+  // While there remain elements to shuffle...
+  while (0 !== currentIndex) {
+
+    // Pick a remaining element...
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex -= 1;
+
+    // And swap it with the current element.
+    temporaryValue = array[currentIndex];
+    array[currentIndex] = array[randomIndex];
+    array[randomIndex] = temporaryValue;
+  }
+
+  return array;
 }

@@ -5,11 +5,11 @@ angular.module('peckApp', [
   'ngResource',
   'ngSanitize',
   'ui.router',
-  'ui.bootstrap'
+  'ui.bootstrap',
 ])
   .config(function ($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider) {
     $urlRouterProvider
-      .otherwise('/');
+      .otherwise('/main/quizzes');
 
     $locationProvider.html5Mode(true);
     $httpProvider.interceptors.push('authInterceptor');

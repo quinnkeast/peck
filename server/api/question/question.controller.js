@@ -31,16 +31,19 @@ exports.create = function(req, res) {
 	
 	// Create new Question object
 	var newQuestion = new Question();
-	newQuestion.current.other_answers = [];
+	newQuestion.current.otherAnswers = [];
 	
-	// Push each "wrong answer" into the other_answers array
-	for (var i=0; i < req.body.other_answers.length; i++) {
-		// If the otherAnswer has actual text:
-		if (req.body.other_answers[i].text) {
-			var answerObj = {
-				text: req.body.other_answers[i].text
-			};
-			newQuestion.current.other_answers.push(answerObj);
+	// If we have other answers with the request
+	if (req.body.otherAnswers) {
+		// Push each "wrong answer" into the otherAnswers array
+		for (var i=0; i < req.body.otherAnswers.length; i++) {
+			// If the otherAnswer has actual text:
+			if (req.body.otherAnswers[i].text) {
+				var answerObj = {
+					text: req.body.otherAnswers[i].text
+				};
+				newQuestion.current.otherAnswers.push(answerObj);
+			}
 		}
 	}
 	
@@ -52,8 +55,8 @@ exports.create = function(req, res) {
 	newQuestion.save(function(err, question) {
 		if (err) { return handleError(res, err); }
 		
-		// No error. Find the existing parent quiz based on the quiz_id.
-		Quiz.findById(req.body.quiz_id, function (err, quiz) {
+		// No error. Find the existing parent quiz based on the quizID.
+		Quiz.findById(req.body.quizID, function (err, quiz) {
 			if (err) { return handleError(res, err); }
 			if (!quiz) { return res.send(404); }
 

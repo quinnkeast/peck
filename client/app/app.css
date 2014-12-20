@@ -132,3 +132,7 @@ body {
 .answer-should-be {
 	color: blue;
 }
+
+.add-answer-button {
+	cursor: pointer;
+}

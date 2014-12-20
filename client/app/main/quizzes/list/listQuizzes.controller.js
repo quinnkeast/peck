@@ -1,21 +1,9 @@
 'use strict';
 
 angular.module('peckApp')
-  .controller('ListQuizzesCtrl', function ($scope, $http, $modal) {
-    $scope.quizzes = [];
+  .controller('ListQuizzesCtrl', function ($scope, $http, $modal, Auth, Quiz, quizzesObj) {
     
-    $http.get('/api/quizzes').success(function(quizzes) {
-	    $scope.quizzes = quizzes;
-    });
-    
-    $scope.addQuiz = function() {
-	    if($scope.newQuiz === '') {
-		    return;
-	    }
-	    $http.post('/api/quizzes', { title: $scope.newQuiz });
-	    $scope.newQuiz = '';
-    };
-    
+    $scope.quizzes = quizzesObj;
 	$scope.createQuiz = function () {
 
 	    var modalInstance = $modal.open({

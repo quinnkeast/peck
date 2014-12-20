@@ -1,12 +1,13 @@
 'use strict';
 
 angular.module('peckApp')
-  .controller('ActiveQuizCtrl', function ($scope, $http, $stateParams, $q, $state, Auth) {
+  .controller('ActiveQuizCtrl', function ($scope, $http, $stateParams, $q, $state, Auth, Quiz) {
    
-    $scope.quiz;
+    $scope.quiz = Quiz.get({ "id": $stateParams.quizID, "mode": "test" });
     $scope.results;
     $scope.submitted = false;
     
+    /*
     $http.get('/api/quizzes/' + $stateParams.quizID + '/test')
     	.success(function(quiz) {
 	    	$scope.quiz = quiz;
@@ -16,6 +17,7 @@ angular.module('peckApp')
 		    	console.log('yep');
 	    	}
 	    });
+    */
     
     $scope.submitQuiz = function() {
 	    
@@ -24,15 +26,15 @@ angular.module('peckApp')
 	    
 	    // Assemble the submission for scoring
 	    var submission = {
-		    "quiz_id": $scope.quiz._id,
-		    "user_id": Auth.getCurrentUser()._id,
+		    "quizID": $scope.quiz._id,
+		    "userID": Auth.getCurrentUser()._id,
 		    "answers": []
 	    };
 	    
 	    // Get the question ID and selected answer ID for each question submitted
 	    for (var i = 0; i < $scope.quiz.questions.length; i++) {
 			submission.answers.push({
-				"question_id": $scope.quiz.questions[i]._id,
+				"questionID": $scope.quiz.questions[i]._id,
 				"selection": $scope.quiz.questions[i].selection
 			});
 		}
@@ -53,18 +55,18 @@ angular.module('peckApp')
 			angular.forEach($scope.results, function(result) {
 				// For each quiz question
 				angular.forEach($scope.quiz.questions, function(question) {
-					if (result.question_id == question._id) {
-						if (result.correct === true) {
-							question.correct = true;
+					if (result.questionID == question._id) {
+						if (result.isCorrect === true) {
+							question.isCorrect = true;
 						}
 						// For each answer in the question
 						angular.forEach(question.answers, function(answer) {
 							// If it's the selected answer and correct answer
-							if (answer._id == result.answer) {
-								answer.correct = true;
+							if (answer._id == result.correctAnswer) {
+								answer.isCorrect = true;
 							// If it's the selected answer and wrong answer
-							} else if (question.selection == answer._id && answer._id != result.answer) {
-								answer.correct = false;
+							} else if (question.selection == answer._id && answer._id != result.correctAnswer) {
+								answer.isCorrect = false;
 							}
 						});
 					}

@@ -5,15 +5,21 @@ var Schema = mongoose.Schema;
 var crypto = require('crypto');
 
 var UserSchema = new Schema({
-  name: String,
-  email: { type: String, lowercase: true },
-  role: {
-    type: String,
-    default: 'user'
-  },
-  hashedPassword: String,
-  provider: String,
-  salt: String
+	account: {
+		userCreatedAt: { type: Date, default: Date.now },
+		lastLoginAt: { type: Date, default: Date.now },
+		avatarID: Number,
+		userUpdatedAt: { type: Date, default: Date.now },
+		city: String,
+		country: String,
+		hasSeenDashboardTour: Boolean,	
+	},
+	name: String,
+	role: { type: String, default: 'user' },
+	email: { type: String, lowercase: true },
+	hashedPassword: String,
+	provider: String,
+	salt: String
 });
 
 /**

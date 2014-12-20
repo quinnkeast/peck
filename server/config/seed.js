@@ -21,7 +21,7 @@ Question.find({}).remove(function() {
 				"_id": mongoose.Types.ObjectId(),
 				"text": "Haiti"
 			},
-			"other_answers": [{
+			"otherAnswers": [{
 				"_id": mongoose.Types.ObjectId(),
 				"text": "Sweden"
 			}, {
@@ -32,7 +32,7 @@ Question.find({}).remove(function() {
 				"text": "New Orleans"
 			}],
 		},
-		"author_id": mongoose.Types.ObjectId('111111111111111111111111'),
+		"authorID": mongoose.Types.ObjectId('111111111111111111111111'),
 		"public": false,
 		"updated": "2012-04-23T18:55:30.511Z"
 	}, {
@@ -45,7 +45,7 @@ Question.find({}).remove(function() {
 				"_id": mongoose.Types.ObjectId(),
 				"text": "Tetanus is deadly, so get the shot!"
 			},
-			"other_answers": [{
+			"otherAnswers": [{
 					"_id": mongoose.Types.ObjectId(),
 					"text": "Get the shot!"
 				}, {
@@ -56,7 +56,7 @@ Question.find({}).remove(function() {
 					"text": "They would all be equally effective."
 			}],
 		},
-		"author_id": mongoose.Types.ObjectId('111111111111111111111111'),
+		"authorID": mongoose.Types.ObjectId('111111111111111111111111'),
 		"public": true,
 		"updated": "2012-04-23T18:55:30.511Z"
 	}, {
@@ -69,7 +69,7 @@ Question.find({}).remove(function() {
 				"_id": mongoose.Types.ObjectId(),
 				"text": "Explicit attitude"
 			},
-			"other_answers": [{
+			"otherAnswers": [{
 					"_id": mongoose.Types.ObjectId(),
 					"text": "Self-concept"
 				}, {
@@ -88,7 +88,7 @@ Question.find({}).remove(function() {
 				"_id": mongoose.Types.ObjectId(),
 				"text": "Implicit attitude"
 			},
-			"other_answers": [{
+			"otherAnswers": [{
 					"_id": mongoose.Types.ObjectId(),
 					"text": "Self-concept"
 				}, {
@@ -99,7 +99,7 @@ Question.find({}).remove(function() {
 					"text": "Subjective norm"
 			}],
 		}],
-		"author_id": mongoose.Types.ObjectId('111111111111111111111111'),
+		"authorID": mongoose.Types.ObjectId('111111111111111111111111'),
 		"public": false,
 		"updated": "2012-04-23T18:55:30.511Z"
 	}, function() {
@@ -113,14 +113,14 @@ Quiz.find({}).remove(function() {
 		"_id": mongoose.Types.ObjectId('111111111111111111111111'),
         "title": "Consumer behaviour final exam",
         "submissions": [{
-            "user_id": mongoose.Types.ObjectId('111111111111111111111111'),
+            "userID": mongoose.Types.ObjectId('111111111111111111111111'),
             "date": "2012-04-23T18:25:43.511Z",
             "score": 14,
             "numberOfQuestions": 15,
             "percentage": .93,
             "wrongAnswers": [mongoose.Types.ObjectId('111111111111111111111111')]
         }, {
-            "user_id": mongoose.Types.ObjectId('111111111111111111111111'),
+            "userID": mongoose.Types.ObjectId('111111111111111111111111'),
             "date": "2012-04-23T18:55:30.511Z",
             "score": 14,
             "numberOfQuestions": 15,
@@ -131,32 +131,32 @@ Quiz.find({}).remove(function() {
         	mongoose.Types.ObjectId('111111111111111111111111'),
 	        mongoose.Types.ObjectId('222222222222222222222222')
         ],
-        "course_id": 1,
-        "set_id": [mongoose.Types.ObjectId('111111111111111111111111')],
-        "author_id": mongoose.Types.ObjectId('111111111111111111111111'),
+        "courseID": 1,
+        "setID": [mongoose.Types.ObjectId('111111111111111111111111')],
+        "authorID": mongoose.Types.ObjectId('111111111111111111111111'),
         "public": false,
         "updated": "2012-04-23T18:55:30.511Z"
     }, {
 	    "_id": mongoose.Types.ObjectId('222222222222222222222222'),
         "title": "Social psych final exam",
         "submissions": [{
-            "user_id": mongoose.Types.ObjectId('111111111111111111111111'),
+            "userID": mongoose.Types.ObjectId('111111111111111111111111'),
             "date": "2012-04-23T18:25:43.511Z",
             "score": 14,
             "numberOfQuestions": 15,
             "percentage": .93,
             "wrongAnswers": [mongoose.Types.ObjectId('111111111111111111111111')]
         }, {
-            "user_id": mongoose.Types.ObjectId('111111111111111111111111'),
+            "userID": mongoose.Types.ObjectId('111111111111111111111111'),
             "date": "2012-04-23T18:55:30.511Z",
             "score": 14,
             "numberOfQuestions": 15,
             "percentage": 93,
             "wrongAnswers": [mongoose.Types.ObjectId('111111111111111111111111')]
         }],
-        "course_id": 1,
-        "set_id": [mongoose.Types.ObjectId('111111111111111111111111')],
-        "author_id": mongoose.Types.ObjectId('111111111111111111111111'),
+        "courseID": 1,
+        "setID": [mongoose.Types.ObjectId('111111111111111111111111')],
+        "authorID": mongoose.Types.ObjectId('222222222222222222222222'),
         "public": false,
         "updated": "2012-04-23T18:55:30.511Z"
     }, function() {

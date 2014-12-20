@@ -15,7 +15,7 @@ var QuestionSchema = new Schema({
 			},
 			text: String 
 		},
-		other_answers: [{ 
+		otherAnswers: [{ 
 			text: String 
 		}],
 	},
@@ -34,7 +34,7 @@ var QuestionSchema = new Schema({
 			text: String 
 		}],
 	}],
-	author_id: { type: Schema.Types.ObjectId, ref: 'User' },
+	authorID: { type: Schema.Types.ObjectId, ref: 'User' },
 	updated: { type: Date, default: Date.now }
 });
 
