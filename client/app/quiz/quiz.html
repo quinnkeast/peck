@@ -14,8 +14,8 @@
 		    <ol type="a">
 			    <li ng-repeat="answer in question.answers" ng-class="">
 			    	<label class="control-label">
-				    	<input type="radio" name="question-{{question._id}}" id="answer-{{answer._id}}" value="{{answer._id}}" ng-model="question.selection">
-				    	<span class="answer-text" ng-class="{ 'answer-correct': submitted === true && question.selection == answer._id && answer.isCorrect === true, 'answer-incorrect': submitted === true && question.selection == answer._id && !answer.isCorrect, 'answer-should-be': submitted === true && question.selection != answer._id && answer.isCorrect }"> {{answer.text}}</span>
+				    	<input type="radio" name="question-{{question._id}}" id="answer-{{answer._id}}" value="{{answer._id}}" ng-model="question.selectedAnswer">
+				    	<span class="answer-text" ng-class="{ 'answer-correct': submitted === true && question.selectedAnswer === answer._id && question.isCorrect === true, 'answer-incorrect': submitted === true && !question.isCorrect && answer.wrongAnswer === true, 'answer-should-be': submitted === true && !question.isCorrect && answer.correctAnswer === true }"> {{answer.text}}</span>
 			    	</label>
 			    </li>
 		    </ol>
@@ -24,12 +24,12 @@
     </div>
     
     <div class="col-lg-8 col-lg-offset-2" ng-show="submitted">
-	    <p>Your score: {{submissionDetails.percentage | percentage:0}}</p>
+	    <p>Your score: {{quiz.results.percentage | percentage:0}}</p>
 	    <a class="btn btn-primary" ng-click="restart()">Take quiz again</a>
     </div>
     
     <div class="col-lg-8 col-lg-offset-2" ng-hide="submitted">
-	    <a class="btn btn-primary" ng-click="submitQuiz()">Submit quiz</a>
+	    <a class="btn btn-primary" ng-click="submitQuiz(quiz)">Submit quiz</a>
     </div>
     
   </div>

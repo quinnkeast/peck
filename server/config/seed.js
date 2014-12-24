@@ -119,14 +119,12 @@ Quiz.find({}).remove(function() {
             "score": 14,
             "numberOfQuestions": 15,
             "percentage": .93,
-            "wrongAnswers": [mongoose.Types.ObjectId('111111111111111111111111')]
         }, {
             "userID": mongoose.Types.ObjectId('111111111111111111111111'),
             "date": "2012-04-23T18:55:30.511Z",
             "score": 14,
             "numberOfQuestions": 15,
             "percentage": .93,
-            "wrongAnswers": [mongoose.Types.ObjectId('111111111111111111111111')]
         }],
         "questions": [
         	mongoose.Types.ObjectId('111111111111111111111111'),
@@ -146,14 +144,12 @@ Quiz.find({}).remove(function() {
             "score": 14,
             "numberOfQuestions": 15,
             "percentage": .93,
-            "wrongAnswers": [mongoose.Types.ObjectId('111111111111111111111111')]
         }, {
             "userID": mongoose.Types.ObjectId('111111111111111111111111'),
             "date": "2012-04-23T18:55:30.511Z",
             "score": 14,
             "numberOfQuestions": 15,
             "percentage": 93,
-            "wrongAnswers": [mongoose.Types.ObjectId('111111111111111111111111')]
         }],
         "course": mongoose.Types.ObjectId('222222222222222222222222'),
         "setID": [mongoose.Types.ObjectId('111111111111111111111111')],

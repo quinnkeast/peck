@@ -2,6 +2,7 @@
 
 var _ = require('lodash');
 var Quiz = require('./quiz.model');
+var Question = require('../question/question.model');
 
 // Get list of quizzes
 exports.index = function(req, res) {
@@ -110,6 +111,100 @@ exports.destroy = function(req, res) {
 
 // Scores a quiz submission, and stores the results.
 exports.score = function(req, res) {
+	var submission = req.body,
+		numberCorrect = 0,
+		numberOfQuestions = submission.questions.length,
+		wronglyAnswered = [],
+		submissionDetails = {};
+
+	// Make sure the submitted quiz exists.
+	Quiz.findById(submission._id, function (err, quiz) {
+		if (err) { return handleError(res, err); }
+		if (!quiz) { return res.send(404); }
+		
+		
+		// Asyncronous function to check each question. 
+		function checkQuestions(i, length, callback) {
+		    if (i < length) {
+		        
+		        // If a question doesn't have an ID, we can't look it up.
+		        if (!submission.questions[i]._id) {
+					return res.send(400, 'Bad request');
+				}
+				
+				// Find the question for the submitted question's ID
+				Question.findById(submission.questions[i]._id, function (err, question) {
+					if (err) { return handleError(res, err); }
+					if (!question) { return res.send(404, 'Question not found'); }
+		            
+		            // Mark question as correct or wrong.
+					// For the future, we can probably switch between logic
+					// based on what kind of question was submitted. Long answer,
+					// M/C, choose all that apply, etc.		
+		            if (question.current.answer._id == submission.questions[i].selectedAnswer) {
+						// Question is correct. That's all we need!
+						submission.questions[i].isCorrect = true;
+						numberCorrect++;
+					} else {
+						// Question is incorrect.
+						submission.questions[i].isCorrect = false;
+						
+						// We're gonna want to store the wrongly-answered question
+						// and what you answered for it.
+						wronglyAnswered.push({
+							"questionID": question._id,
+							"selectedAnswerID": submission.questions[i].selectedAnswer
+						});				
+						
+						// Loop through the answers to mark the correct answer.
+						var numberOfAnswers = submission.questions[i].answers.length;
+						for (var j = 0; j < numberOfAnswers; j += 1) {
+							if (submission.questions[i].answers[j]._id == submission.questions[i].selectedAnswer) {
+								submission.questions[i].answers[j].wrongAnswer = true;
+							} else if (submission.questions[i].answers[j]._id == question.current.answer._id) {
+								submission.questions[i].answers[j].correctAnswer = true;
+							}
+						}
+					}
+		            
+		            // Check next question
+		            checkQuestions(i + 1, length, callback);
+				});
+		    } else {
+		        callback();
+		    }
+		}
+		
+		// Check each question asyncronously, and then 
+		checkQuestions(0, numberOfQuestions, function() {
+		    // Callback. Once it finishes looping through the questions, 
+		    // it'll run everything below.
+		    submissionDetails = {
+				"userID": req.body.userID,
+				"score": numberCorrect,
+				"numberOfQuestions": numberOfQuestions,
+				"percentage": numberCorrect / numberOfQuestions,
+				"wronglyAnswered": wronglyAnswered
+			};
+			
+			// Update the quiz to insert the new submission
+			quiz.submissions.push(submissionDetails);
+			submission.results = submissionDetails;
+			
+			// Save!			
+		    quiz.save(function (err) {
+				if (err) { return handleError(res, err); }
+				// All good! Now we're going to return the submitted quiz
+				// as it was, with the results included.
+				return res.json(200, submission);
+		    });
+		});
+	});
+};
+
+/*
+// Scores a quiz submission, and stores the results.
+exports.score = function(req, res) {
   
 	if(req.body._id) { delete req.body._id; }
 	
@@ -187,7 +282,7 @@ exports.score = function(req, res) {
 		    });
 
 		});  
-};
+}; */
 
 function handleError(res, err) {
   return res.send(500, err);

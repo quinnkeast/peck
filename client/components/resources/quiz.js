@@ -2,18 +2,22 @@
 
 angular.module('peckApp')
 	.factory('Quiz', function($resource) {
-		var Quiz = $resource('/api/quizzes/:id/:mode', {
-			id: '@_id',
-			mode: '@mode'
+		var Quiz = $resource('/api/quizzes/:id', {
+			id: '@id'
 		}, {
-			update: {
-				method: 'PUT' // This method issues a PUT request
+			getTest: {
+				method: 'GET',
+				url: '/api/quizzes/:id/test'
+			},
+			getScore: {
+				method: 'POST',
+				url: '/api/quizzes/:id/score' // This method issues a PUT request
 			}
 		});
 		
 		angular.extend(Quiz.prototype, {
 			getResult: function() {
-				// TODO - This is just an example from elsewhere
+				console.log(this);
 				if (this.status == 'complete') {
                     if (this.passed === null) return "Finished";
                     else if (this.passed === true) return "Pass";
@@ -25,3 +29,8 @@ angular.module('peckApp')
 		
 		return Quiz;
 	});
+	
+	
+/*	'answer-correct': submitted === true && question.selection == answer._id && answer.isCorrect === true, 
+	'answer-incorrect': submitted === true && question.selection == answer._id && !answer.isCorrect, 
+	'answer-should-be': submitted === true && question.selection != answer._id && answer.isCorrect */

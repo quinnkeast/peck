@@ -11,7 +11,10 @@ var QuizSchema = new Schema({
 		score: Number,
 		numberOfQuestions: Number,
 		percentage: Number,
-		wrongAnswers: [ { type: Schema.Types.ObjectId, ref: 'Question' } ]
+		wronglyAnswered: [{
+			"questionID": { type: Schema.Types.ObjectId, ref: 'Question' },
+			"selectedAnswerID": { type: Schema.Types.ObjectId } 
+		}]
 	}],
 	questions: [
 		{ type: Schema.Types.ObjectId, ref: 'Question' }
