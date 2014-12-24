@@ -1,9 +1,14 @@
 'use strict';
 
 angular.module('peckApp')
-  .controller('NewQuizCtrl', function ($scope, $location, $http, $modalInstance, Question, Quiz, $q) {
+  .controller('NewQuizCtrl', function ($scope, $location, $http, $modalInstance, Question, Quiz, Course, $q) {
   
   		$scope.quiz = new Quiz();
+  		$scope.newCourse = new Course();
+  		
+  		$scope.existingCourses = Course.query();
+  		
+  		console.log($scope.existingCourses);
   		
 		$scope.submit = function (quiz) {
 			// TODO - add checking on the form

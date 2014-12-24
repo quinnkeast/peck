@@ -5,16 +5,16 @@ var Quiz = require('./quiz.model');
 
 // Get list of quizzes
 exports.index = function(req, res) {
-  Quiz.find(function (err, quizs) {
+  Quiz.find(function (err, quizzes) {
     if(err) { return handleError(res, err); }
-    return res.json(200, quizs);
+    return res.json(200, quizzes);
   });
 };
 
-// Get a single quiz
+// Get quizzes for a specified user
 exports.findForUser = function(req, res) {
   Quiz.find({"authorID": req.user._id})
-  .populate('questions')
+  .populate('course')
   .exec(function (err, quiz) {
     if(err) { return handleError(res, err); }
     if(!quiz) { return res.send(404); }
@@ -37,6 +37,7 @@ exports.show = function(req, res) {
 exports.test = function(req, res) {
 	Quiz.findById(req.params.id)
 		.populate('questions')
+		.populate('course')
 		.exec(function (err, quiz) {
 			if(err) { return handleError(res, err); }
 			if(!quiz) { return res.send(404); }

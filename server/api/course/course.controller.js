@@ -11,6 +11,16 @@ exports.index = function(req, res) {
   });
 };
 
+// Get courses associated with a specified user
+exports.findForUser = function(req, res) {
+  Course.find({"authorID": req.user._id})
+  .exec(function (err, course) {
+    if(err) { return handleError(res, err); }
+    if(!course) { return res.send(404); }
+    return res.json(course);
+  });
+};
+
 // Get a single course
 exports.show = function(req, res) {
   Course.findById(req.params.id, function (err, course) {

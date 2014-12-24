@@ -9,6 +9,7 @@ var mongoose = require('mongoose');
 var	Question = require('../api/question/question.model');
 var	Quiz = require('../api/quiz/quiz.model');
 var	User = require('../api/user/user.model');
+var Course = require('../api/course/course.model');
 
 Question.find({}).remove(function() {
 	Question.create({
@@ -131,7 +132,7 @@ Quiz.find({}).remove(function() {
         	mongoose.Types.ObjectId('111111111111111111111111'),
 	        mongoose.Types.ObjectId('222222222222222222222222')
         ],
-        "courseID": 1,
+        "course": mongoose.Types.ObjectId('111111111111111111111111'),
         "setID": [mongoose.Types.ObjectId('111111111111111111111111')],
         "authorID": mongoose.Types.ObjectId('111111111111111111111111'),
         "public": false,
@@ -154,7 +155,7 @@ Quiz.find({}).remove(function() {
             "percentage": 93,
             "wrongAnswers": [mongoose.Types.ObjectId('111111111111111111111111')]
         }],
-        "courseID": 1,
+        "course": mongoose.Types.ObjectId('222222222222222222222222'),
         "setID": [mongoose.Types.ObjectId('111111111111111111111111')],
         "authorID": mongoose.Types.ObjectId('222222222222222222222222'),
         "public": false,
@@ -168,19 +169,32 @@ Quiz.find({}).remove(function() {
 User.find({}).remove(function() {
 	User.create({
 		"_id": mongoose.Types.ObjectId('111111111111111111111111'),
-		provider: 'local',
-		name: 'Test User',
-		email: 'test@test.com',
-		password: 'test'
+		"provider": 'local',
+		"name": 'Test User',
+		"email": 'test@test.com',
+		"password": 'test'
 	}, {
 		"_id": mongoose.Types.ObjectId('222222222222222222222222'),
-		provider: 'local',
-		role: 'admin',
-		name: 'Admin',
-		email: 'admin@admin.com',
-		password: 'admin'
+		"provider": 'local',
+		"role": 'admin',
+		"name": 'Admin',
+		"email": 'admin@admin.com',
+		"password": 'admin'
 	}, function() {
 		console.log('finished populating users');
+	}
+	);
+});
+
+Course.find({}).remove(function() {
+	Course.create({
+		"_id": mongoose.Types.ObjectId('111111111111111111111111'),
+		"name": "Consumer Behaviour",
+		"authorID": mongoose.Types.ObjectId('111111111111111111111111'),
+	}, {
+		"_id": mongoose.Types.ObjectId('222222222222222222222222'),
+		"name": "Social Psych",
+		"authorID": mongoose.Types.ObjectId('222222222222222222222222'),
 	}
 	);
 });
