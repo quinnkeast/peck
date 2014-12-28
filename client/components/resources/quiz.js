@@ -7,30 +7,26 @@ angular.module('peckApp')
 		}, {
 			getTest: {
 				method: 'GET',
-				url: '/api/quizzes/:id/test'
+				url: '/api/test'
 			},
 			getScore: {
 				method: 'POST',
-				url: '/api/quizzes/:id/score' // This method issues a PUT request
+				url: '/api/test/score'
 			}
 		});
 		
 		angular.extend(Quiz.prototype, {
-			getResult: function() {
-				console.log(this);
-				if (this.status == 'complete') {
-                    if (this.passed === null) return "Finished";
-                    else if (this.passed === true) return "Pass";
-                    else if (this.passed === false) return "Fail";
-                }
-                else return "Running";
+			getResult: function(question) {
+				//if (submitted === true) {
+                	if (question.isCorrect === true) {
+	                	return "question-correct";
+                	} else if (question.isCorrect === false) {
+	                	return "question-incorrect";
+                	}
+                //}
+                //else return "not-submitted";
 			}
 		});
 		
 		return Quiz;
 	});
-	
-	
-/*	'answer-correct': submitted === true && question.selection == answer._id && answer.isCorrect === true, 
-	'answer-incorrect': submitted === true && question.selection == answer._id && !answer.isCorrect, 
-	'answer-should-be': submitted === true && question.selection != answer._id && answer.isCorrect */

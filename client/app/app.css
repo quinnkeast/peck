@@ -136,3 +136,17 @@ body {
 .add-answer-button {
 	cursor: pointer;
 }
+
+.overlay {
+	width: 100%;
+	height: 100%;
+	position: fixed;
+	top: 0;
+	left: 0;
+	z-index: 5;
+	background-color: #f2f2f2;
+	background-image: url('/assets/images/loading.gif');
+	background-position: center center;
+	background-repeat: no-repeat;
+	opacity: .96;
+}

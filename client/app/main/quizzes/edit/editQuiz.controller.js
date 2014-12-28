@@ -9,6 +9,7 @@ angular.module('peckApp')
 			$scope.isLoading = true;
 			var quiz = Quiz.get({ "id": $stateParams.quizID }).$promise.then(function(quiz) {
 			    $scope.quiz = quiz;
+			    $scope.isLoading = false;
 			});
 		};
 		

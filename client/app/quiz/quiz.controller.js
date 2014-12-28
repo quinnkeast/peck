@@ -1,18 +1,18 @@
 'use strict';
 
 angular.module('peckApp')
-	.controller('ActiveQuizCtrl', function ($scope, $http, $stateParams, $q, $state, Auth, Quiz) {
+	.controller('ActiveQuizCtrl', function ($scope, $http, $stateParams, $q, $state, $modal, Auth, Quiz, $timeout, $window) {
 	  
-		// SEEK $scope.results;
 		$scope.submitted = false;
 		$scope.isLoading = false;
-	   
+		$scope.showOverlay = false;
+				
 		$scope.loadQuiz = function() {
-			
 			$scope.isLoading = true;
 			
-			var quiz = Quiz.getTest({ "id": $stateParams.quizID }).$promise.then(function(quiz) {
+			var quiz = Quiz.getTest({"id": $stateParams.id}).$promise.then(function(quiz) {
 				$scope.quiz = quiz;
+				$scope.isLoading = false;
 			});
 			
 		};
@@ -23,16 +23,23 @@ angular.module('peckApp')
 		    
 		    $scope.submitted = true;
 		    $scope.isLoading = true;
-
-		    var scoredQuiz = Quiz.getScore({ "id": quiz._id }, quiz).$promise.then(function(scoredQuiz) {
-			    $scope.quiz = scoredQuiz;
+		    $scope.showOverlay = true;
+		    var scoredQuiz = Quiz.getScore({"id": $stateParams.id}, quiz).$promise.then(function(scoredQuiz) {
+			    $scope.isLoading = false;
+				
+				$timeout(function(){
+					$window.scrollTo(0,0);
+					$scope.showOverlay = false;
+					$scope.quiz = scoredQuiz;
+				}, 1000);    
+			    
 		    });
 	    };
 	    
 		$scope.restart = function() {
 			$state.reload();
 		};
-        
+		
 	})
 	.filter('percentage', ['$filter', function($filter) {
 		return function(input, decimals) {

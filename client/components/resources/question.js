@@ -11,16 +11,5 @@ angular.module('peckApp')
 			}
 		});
 		
-		angular.extend(Question.prototype, {
-			getResult: function() {
-				if (this.status == 'complete') {
-					if (this.passed === null) return "Finished";
-					else if (this.passed === true) return "Pass";
-					else if (this.passed === false) return "Fail";
-				}
-				else return "Running";
-			}
-		});
-		
 		return Question;	
 	});

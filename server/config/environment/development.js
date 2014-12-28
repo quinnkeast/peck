@@ -8,5 +8,5 @@ module.exports = {
     uri: 'mongodb://localhost/peck-dev'
   },
 
-  seedDB: true
+  seedDB: false
 };

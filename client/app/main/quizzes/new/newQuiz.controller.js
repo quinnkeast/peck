@@ -8,8 +8,6 @@ angular.module('peckApp')
   		
   		$scope.existingCourses = Course.query();
   		
-  		console.log($scope.existingCourses);
-  		
 		$scope.submit = function (quiz) {
 			// TODO - add checking on the form
 			if (!$scope.quiz.title) {
