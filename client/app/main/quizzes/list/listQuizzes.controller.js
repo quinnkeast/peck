@@ -4,6 +4,7 @@ angular.module('peckApp')
   .controller('ListQuizzesCtrl', function ($scope, $http, $modal, $q, Auth, Quiz, $state, $stateParams, bulkQuizzesSelected) {
     
     $scope.isLoading = false;
+    $scope.numberOfQuizzesSelected = 0;
     bulkQuizzesSelected.reset();
     
     $scope.loadQuizzes = function() {
@@ -38,6 +39,7 @@ angular.module('peckApp')
 			bulkQuizzesSelected.removeQuiz(quiz._id);
 			quiz.isSelectedForBulkAction = false;
 		}
+		$scope.numberOfQuizzesSelected = bulkQuizzesSelected.currentLength();
 	};
 
     $scope.startTest = function(quizID) {
@@ -69,6 +71,10 @@ angular.module('peckApp')
 			return quizList;
 		};
 		
+		var currentLength = function() {
+			return quizList.length;
+		}
+		
 		// Private functions
 		function getIndexOf(arr, val, prop) {
 			var l = arr.length,
@@ -85,6 +91,7 @@ angular.module('peckApp')
 			reset: reset,
 			addQuiz: addQuiz,
 			getQuizzes: getQuizzes,
-			removeQuiz: removeQuiz
+			removeQuiz: removeQuiz,
+			currentLength: currentLength
 		};
 	});

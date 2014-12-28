@@ -17,7 +17,7 @@
 			    
 				<!-- Button trigger modal -->				
 				<div class="toolbar">
-					<a class="btn btn-primary btn-large take-test-button" ng-click="takeQuizzesInBulk()">Take quiz</a>
+					<a class="btn btn-primary btn-large take-test-button" ng-click="takeQuizzesInBulk()"><span ng-hide="numberOfQuizzesSelected">Take quiz</span><span ng-show="numberOfQuizzesSelected">Take quizzes ({{numberOfQuizzesSelected}})</a>
 					<a class="btn btn-primary btn-large create-quiz-button" ng-click="createQuiz()">Create new quiz</a>
 				</div>
 				
