@@ -4,7 +4,7 @@ angular.module('peckApp')
   .controller('NewQuizCtrl', function ($scope, $location, $http, $modalInstance, Question, Quiz, Course, $q) {
   
   		$scope.quiz = new Quiz();
-  		$scope.newCourse = new Course();
+  		//$scope.newCourse = new Course();
   		
   		$scope.existingCourses = Course.query();
   		

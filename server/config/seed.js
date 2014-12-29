@@ -130,8 +130,7 @@ Quiz.find({}).remove(function() {
         	mongoose.Types.ObjectId('111111111111111111111111'),
 	        mongoose.Types.ObjectId('222222222222222222222222')
         ],
-        "course": mongoose.Types.ObjectId('111111111111111111111111'),
-        "setID": [mongoose.Types.ObjectId('111111111111111111111111')],
+        "course": "Consumer Behaviour",
         "authorID": mongoose.Types.ObjectId('111111111111111111111111'),
         "public": false,
         "updated": "2012-04-23T18:55:30.511Z"
@@ -151,9 +150,8 @@ Quiz.find({}).remove(function() {
             "numberOfQuestions": 15,
             "percentage": 93,
         }],
-        "course": mongoose.Types.ObjectId('222222222222222222222222'),
-        "setID": [mongoose.Types.ObjectId('111111111111111111111111')],
-        "authorID": mongoose.Types.ObjectId('222222222222222222222222'),
+        "course": "Social Psychology",
+        "authorID": mongoose.Types.ObjectId('111111111111111111111111'),
         "public": false,
         "updated": "2012-04-23T18:55:30.511Z"
     }, function() {

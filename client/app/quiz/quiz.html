@@ -4,7 +4,10 @@
   <div class="row">
     
     <div class="col-lg-12">
-      <p>You're taking {{quiz.title}}</p>
+      <p>You're taking:</p>
+      <ul>
+	      <li ng-repeat="title in quiz.titles">{{title}}</li>
+      </ul>
     </div>
     
     <div class="col-lg-8 col-lg-offset-2" ng-show="submitted">

@@ -19,7 +19,7 @@ var QuizSchema = new Schema({
 	questions: [
 		{ type: Schema.Types.ObjectId, ref: 'Question' }
 	],
-	course: { type: Schema.Types.ObjectId, ref: 'Course' },
+	course: String,
 	setID: [
 		{ type: Schema.Types.ObjectId, ref: 'Set' }
 	],

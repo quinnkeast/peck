@@ -10,6 +10,7 @@ angular.module('peckApp')
 			var quiz = Quiz.get({ "id": $stateParams.quizID }).$promise.then(function(quiz) {
 			    $scope.quiz = quiz;
 			    $scope.isLoading = false;
+			    $scope.beginWritingQuestion = true;
 			});
 		};
 		
@@ -35,6 +36,8 @@ angular.module('peckApp')
 			    return;
 		    }
 		    
+		    $scope.beginWritingQuestion = false;
+		    
 		    Question.save({
 			    "question": $scope.newQuestion.question,
 				"answer": $scope.newQuestion.answer.text,
@@ -48,6 +51,7 @@ angular.module('peckApp')
 				// This is for visual purposes. The quiz state doesn't need to be saved.
 			    $scope.quiz.questions.push(data);
 			    $scope.blankQuestion();
+			    $scope.beginWritingQuestion = true;
 			    
 		    }, function (err) {
 			    // Error handler
@@ -61,7 +65,7 @@ angular.module('peckApp')
 			Question.delete({"id": question._id }, function() {
 				// Success
 				// Now, remove from the scope so it no longer shows up in the list
-				$scope.quiz.questions.splice( $scope.quiz.questions.indexOf(question));
+				$scope.quiz.questions.splice($scope.quiz.questions.indexOf(question));
 			}, function (err) {
 				// Failure
 				// TODO - add failure to delete

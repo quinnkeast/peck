@@ -63,6 +63,10 @@ exports.create = function(req, res) {
 			// Add the question's ID to the quiz's array of questions.
 			quiz.questions.push(question._id);
 			
+			// Update date
+			var now = new Date();
+			quiz.updated = now.toJSON();
+			
 			// Update the quiz in the DB.
 			quiz.save(function (err) {
 				if (err) { return handleError(res, err); }

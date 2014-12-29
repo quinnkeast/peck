@@ -5,9 +5,9 @@
 			<input type="text" class="form-control" id="quizNameField" ng-model="quiz.title" placeholder="What's your quiz called?">
 		</div>
 		<div class="form-group">
-			<input type="text" class="form-control" ng-model="quiz.newCourse" id="courseName" placeholder="What course is it for?">
-			<p ng-repeat="course in existingCourses">{{course.name}}</p>
-		</div>		
+			<input type="text" class="form-control" ng-model="quiz.course" id="courseName" placeholder="What course is it for?">
+			<p ng-repeat="course in existingCourses">{{course}}</p>
+		</div>
 	    <input type="submit" id="submit" value="Create this quiz" class="btn btn-primary">
 	    <span class="btn btn-default" ng-click="cancel()">Cancel</span>
 	</form>
