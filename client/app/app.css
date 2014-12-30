@@ -195,3 +195,7 @@ body {
 	background-repeat: no-repeat;
 	opacity: .96;
 }
+
+.ui-select-bootstrap > .ui-select-match .text-muted {
+	text-align: left;
+}

@@ -101,6 +101,11 @@ angular.module('peckApp')
 	    var modalInstance = $modal.open({
 			templateUrl: 'app/main/quizzes/new/newQuiz.html',
 			controller: 'NewQuizCtrl',
+			resolve: {
+				existingCourses: function(Course) {
+					return Course.query().$promise;
+				}
+			}
 	    });
 		
 	    modalInstance.result.then(function () {

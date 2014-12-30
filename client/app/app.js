@@ -7,6 +7,7 @@ angular.module('peckApp', [
   'ui.router',
   'ui.bootstrap',
   'angularMoment',
+  'selectize',
 ])
   .config(function ($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider) {
     $urlRouterProvider
@@ -14,6 +15,7 @@ angular.module('peckApp', [
 
     $locationProvider.html5Mode(true);
     $httpProvider.interceptors.push('authInterceptor');
+
   })
 
   .factory('authInterceptor', function ($rootScope, $q, $cookieStore, $location) {

@@ -9,7 +9,18 @@ exports.findForUser = function(req, res) {
 		.distinct("course", function (err, courses) {
 			if(err) { return handleError(res, err); }
 			if(!courses) { return res.send(404); }
-			return res.json(200, courses);
+			
+			var response = [];
+			
+			// Let's format this nicely so we can return an array
+			// of objects.
+			for (var i = 0, l = courses.length; i < l; i++) {
+				response.push({
+					"name": courses[i]
+				});
+			}
+			
+			return res.json(200, response);
 	});
 };
 
