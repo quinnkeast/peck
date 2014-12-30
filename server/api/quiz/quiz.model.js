@@ -25,7 +25,8 @@ var QuizSchema = new Schema({
 	],
 	authorID: { type: Schema.Types.ObjectId, ref: 'User' },
 	isPublic: Boolean,
-	updated: { type: Date, default: Date.now }
+	updated: { type: Date, default: Date.now },
+	lastTaken: { type: Date }
 });
 
 module.exports = mongoose.model('Quiz', QuizSchema);

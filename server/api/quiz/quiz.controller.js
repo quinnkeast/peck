@@ -15,7 +15,7 @@ exports.index = function(req, res) {
 // Get quizzes for a specified user
 exports.findForUser = function(req, res) {
   Quiz.find({"authorID": req.user._id})
-  //.populate('course')
+  .populate("authorID", "name")
   .select('-submissions')
   .exec(function (err, quiz) {
     if(err) { return handleError(res, err); }

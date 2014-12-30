@@ -17,8 +17,10 @@
 			    
 				<!-- Button trigger modal -->				
 				<div class="toolbar">
-					<a class="btn btn-primary btn-large take-test-button" ng-click="takeQuizzesInBulk()"><span ng-hide="numberOfQuizzesSelected">Take quiz</span><span ng-show="numberOfQuizzesSelected">Take quizzes ({{numberOfQuizzesSelected}})</a>
+		    		<a class="btn" ng-click="showCourses()"><span class="glyphicon glyphicon-th-large"></span></a>
+		    		<a class="btn" ng-click="hideCourses()"><span class="glyphicon glyphicon-th-list"></span></a>
 					<a class="btn btn-primary btn-large create-quiz-button" ng-click="createQuiz()">Create new quiz</a>
+					<a class="btn btn-primary btn-large take-test-button" ng-click="takeQuizzesInBulk()"><span ng-hide="numberOfQuizzesSelected">Take quiz</span><span ng-show="numberOfQuizzesSelected">Take quizzes ({{numberOfQuizzesSelected}})</a>
 				</div>
 				
 		    </div>
@@ -30,53 +32,64 @@
 	
 <div class="container">
 	<div class="row">
-		
-		<a class="btn btn-default" ng-click="toggleCourseVisibility()"><span ng-show="!showCourses">Show</span><span ng-show="showCourses">Hide</span> courses</a>
-    
+		    
 	    <div class="col-lg-12">
 		    <div class="quiz-box">
-			    
-			    <div ng-repeat="group in groups" ng-if="showCourses">
-				    <h4>{{group.label}}</h4>
-				    <ul class="quiz-list">
-				        <li class="quiz-item" ng-repeat="quiz in group.quizzes | orderBy: 'updated':true">
+			    			    
+			    <div ng-repeat="group in groups" ng-if="coursesVisible">
+				    <h3 class="course-label">{{group.label}}</h3>
+				    <div class="quiz-list">
+				        <div class="quiz-item" ng-repeat="quiz in group.quizzes | orderBy: 'updated':true">
 				        
 				        	<div class="quiz-item__checker">
 								<input type="checkbox" ng-model="quiz.isSelectedForBulkAction" ng-click="quizSelectedForBulkAction(quiz)">
 				        	</div>
 				        	
-					        <div class="quiz-item__name">{{quiz.title}}</div>
+					        <div class="quiz-item__name">
+						        <h2 class="quiz-title">{{quiz.title}}</h2>
+						    </div>
+					        
+					        <div class="quiz-item__edited-by">
+						        <span class="edited-by-label">Edited by</span>
+						        <span class="edited-by-author">{{quiz.authorID.name}}</span>
+						        <span class="edited-by-date" am-time-ago="quiz.updated"></span>
+					        </div>
 					        
 					        <div class="quiz-item__actions">
 						        <a href="/main/quizzes/{{quiz._id}}/edit" class="btn btn-default inline-edit-button">Edit quiz</a>
 						        <a ng-click="startTest(quiz._id)" class="btn btn-primary inline-test-button">Take quiz</a>
 					        </div>
-					        
-					        <br class="clear">
-					        
-					    </li>
-				    </ul><!-- /quiz-list -->
+					        					        
+					    </div>
+				    </div><!-- /quiz-list -->
 			    </div>
 			    
-			    <div ng-if="!showCourses">
-				    <ul class="quiz-list">
-				        <li class="quiz-item" ng-repeat="quiz in quizzes | orderBy: 'updated':true">
+			    <div ng-if="!coursesVisible">
+				    <h3 class="course-label">All quizzes</h3>
+				    <div class="quiz-list">
+				        <div class="quiz-item" ng-repeat="quiz in quizzes | orderBy: 'updated':true">
 				        
 				        	<div class="quiz-item__checker">
 								<input type="checkbox" ng-model="quiz.isSelectedForBulkAction" ng-click="quizSelectedForBulkAction(quiz)">
 				        	</div>
 				        	
-					        <div class="quiz-item__name">{{quiz.title}}</div>
+					        <div class="quiz-item__name">
+						        <h2 class="quiz-title">{{quiz.title}}</h2>
+						    </div>
+					        
+					        <div class="quiz-item__edited-by">
+						        <span class="edited-by-label">Edited by</span>
+						        <span class="edited-by-author">{{quiz.authorID.name}}</span>
+						        <span class="edited-by-date" am-time-ago="quiz.updated"></span>
+					        </div>
 					        
 					        <div class="quiz-item__actions">
 						        <a href="/main/quizzes/{{quiz._id}}/edit" class="btn btn-default inline-edit-button">Edit quiz</a>
 						        <a ng-click="startTest(quiz._id)" class="btn btn-primary inline-test-button">Take quiz</a>
 					        </div>
-					        
-					        <br class="clear">
-					        
-					    </li>
-				    </ul><!-- /quiz-list -->
+					        					        
+					    </div>
+				    </div><!-- /quiz-list -->
 			    </div>
 			    
 		    </div><!-- /quiz-box -->

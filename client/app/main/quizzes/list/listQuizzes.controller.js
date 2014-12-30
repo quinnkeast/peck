@@ -79,22 +79,21 @@ angular.module('peckApp')
     
     // Here we go!
     $scope.isLoading = false;
-    $scope.showCourses = true;
+    $scope.coursesVisible = true;
     $scope.numberOfQuizzesSelected = 0;
     bulkQuizzesSelected.reset();    
     
     // Get some data
     $scope.loadQuizzes();
     
-    // Should we be grouping by course?
-    $scope.toggleCourseVisibility = function() {
-	    if ($scope.showCourses) {
-		    $scope.showCourses = false;
-	    } else {
-		    $scope.showCourses = true;
-	    }
+    $scope.showCourses = function() {
+	    $scope.coursesVisible = true;
     };
-    
+
+    $scope.hideCourses = function() {
+	    $scope.coursesVisible = false;
+    };
+        
     // Create a new quiz
 	$scope.createQuiz = function () {
 		

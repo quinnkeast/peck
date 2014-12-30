@@ -62,10 +62,15 @@ angular.module('peckApp')
 	    };
 	    
 	    $scope.deleteQuestion = function(question) {
-			Question.delete({"id": question._id }, function() {
+			Question.delete({
+				"id": question._id, 
+				"quizID": $scope.quiz._id
+			}, function() {
+
 				// Success
 				// Now, remove from the scope so it no longer shows up in the list
-				$scope.quiz.questions.splice($scope.quiz.questions.indexOf(question));
+$scope.quiz.questions.splice($scope.quiz.questions.indexOf(question));
+
 			}, function (err) {
 				// Failure
 				// TODO - add failure to delete

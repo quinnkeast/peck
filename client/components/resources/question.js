@@ -2,9 +2,8 @@
 
 angular.module('peckApp')
 	.factory('Question', function($resource) {
-		var Question = $resource('/api/questions/:id/:mode', { 
-				id: '@_id',
-				mode: '@mode'
+		var Question = $resource('/api/questions/:id', { 
+				id: '@_id'
 			}, {
 			update: {
 				method: 'PUT' // this method issues a PUT request

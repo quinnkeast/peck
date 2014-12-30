@@ -54,6 +54,12 @@ body {
 .quiz-box {
 }
 
+.course-label {
+	margin: 40px 0 20px;
+	font-size: 16px;
+	font-weight: normal;
+}
+
 .quiz-list {
 	padding: 0;
 }
@@ -63,9 +69,8 @@ body {
 	position: relative;
 	border: 1px solid #e5e5e5;
 	border-width: 1px 0;
-	padding: 6px 2px 6px;
+	padding: 15px;
 	margin: 0 0px -1px 0px;
-	line-height: 32px;
 }
 
 .quiz-item:hover {
@@ -77,22 +82,62 @@ body {
 	display: inline-block;
 }
 
-.quiz-item__checker {
-	display: inline-block;
-	height: 32px;	
-}
+	.quiz-item__checker {
+		display: inline-block;
+		vertical-align: top;
+		margin: 3px 10px 0 0;
+	}
+	
+	.quiz-item__checker input[type="checkbox"] {
+		margin: 0;
+	}
+	
+	.quiz-item__name {
+		display: inline-block;
+		width: 400px;
+		vertical-align: top;
+	}
+	
+		.quiz-item__name .quiz-title {
+			font-size: 16px;
+			line-height: 1;
+			font-weight: normal;
+			margin: 5px 0 0 0;
+			padding: 0;
+		}
+		
+	.quiz-item__edited-by {
+		display: inline-block;
+		width: 150px;
+	}
+	
+		.quiz-item__edited-by .edited-by-label {
+			font-size: 11px;
+			line-height: 1.25;
+			display: block;
+		}
+		
+		.quiz-item__edited-by .edited-by-author {
+			font-weight: bold;
+			font-size: 11px;
+			line-height: 1.25;
+			display: block;
+		}
+		
+		.quiz-item__edited-by .edited-by-date {
+			font-size: 11px;
+			line-height: 1.25;
+			display: block;
+		}
+	
+	.quiz-item__actions {
+		display: inline-block;
+		position: absolute;
+		right: 0;
+	}
+	
+	
 
-.quiz-item__name {
-	display: inline-block;
-	height: 32px;
-}
-
-.quiz-item__actions {
-	display: inline-block;
-	position: absolute;
-	right: 0;
-	height: 32px;
-}
 
 .inline-edit-button,
 .inline-test-button {
