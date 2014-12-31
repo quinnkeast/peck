@@ -5,6 +5,9 @@ angular.module('peckApp')
 		var Quiz = $resource('/api/quizzes/:id', {
 			id: '@id'
 		}, {
+			update: {
+				method: 'PUT'
+			},
 			getTest: {
 				method: 'GET',
 				url: '/api/test'

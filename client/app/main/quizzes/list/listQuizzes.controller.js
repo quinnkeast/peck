@@ -146,7 +146,7 @@ angular.module('peckApp')
 	    $state.go("activeQuiz", {id: quizIDs}); 
 	    
 	};
-	
+		
 	}).service('bulkQuizzesSelected', function() {
 		var quizList = [];
 		

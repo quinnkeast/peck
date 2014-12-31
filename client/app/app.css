@@ -57,7 +57,7 @@ body {
 .course-label {
 	margin: 40px 0 20px;
 	font-size: 16px;
-	font-weight: normal;
+	font-weight: bold;
 }
 
 .quiz-list {
@@ -99,11 +99,19 @@ body {
 	}
 	
 		.quiz-item__name .quiz-title {
-			font-size: 16px;
+			font-size: 14px;
 			line-height: 1;
 			font-weight: normal;
-			margin: 5px 0 0 0;
+			margin: 7px 0 0 0;
 			padding: 0;
+			display: inline-block;
+		}
+		
+		.quiz-item__name .quiz-question-count {
+			font-size: 12px;
+			line-height: 1;
+			color: #999;
+			display: block;
 		}
 		
 	.quiz-item__edited-by {
@@ -119,9 +127,7 @@ body {
 		
 		.quiz-item__edited-by .edited-by-author {
 			font-weight: bold;
-			font-size: 11px;
-			line-height: 1.25;
-			display: block;
+			display: inline-block;
 		}
 		
 		.quiz-item__edited-by .edited-by-date {

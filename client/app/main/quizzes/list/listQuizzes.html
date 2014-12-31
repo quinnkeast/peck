@@ -20,7 +20,7 @@
 		    		<a class="btn" ng-click="showCourses()"><span class="glyphicon glyphicon-th-large"></span></a>
 		    		<a class="btn" ng-click="hideCourses()"><span class="glyphicon glyphicon-th-list"></span></a>
 					<a class="btn btn-primary btn-large create-quiz-button" ng-click="createQuiz()">Create new quiz</a>
-					<a class="btn btn-primary btn-large take-test-button" ng-click="takeQuizzesInBulk()"><span ng-hide="numberOfQuizzesSelected">Take quiz</span><span ng-show="numberOfQuizzesSelected">Take quizzes ({{numberOfQuizzesSelected}})</a>
+					<a class="btn btn-primary btn-large take-test-button" ng-click="takeQuizzesInBulk()" ng-disabled="!numberOfQuizzesSelected"><span ng-hide="numberOfQuizzesSelected">Take quiz</span><span ng-show="numberOfQuizzesSelected">Take quizzes ({{numberOfQuizzesSelected}})</a>
 				</div>
 				
 		    </div>
@@ -39,19 +39,19 @@
 			    <div ng-repeat="group in groups" ng-if="coursesVisible">
 				    <h3 class="course-label">{{group.label}}</h3>
 				    <div class="quiz-list">
-				        <div class="quiz-item" ng-repeat="quiz in group.quizzes | orderBy: 'updated':true">
+				        <div class="quiz-item" ng-controller="ListQuizzes.Single.Ctrl" ng-repeat="quiz in group.quizzes | orderBy: 'updated':true">
 				        
 				        	<div class="quiz-item__checker">
 								<input type="checkbox" ng-model="quiz.isSelectedForBulkAction" ng-click="quizSelectedForBulkAction(quiz)">
 				        	</div>
 				        	
 					        <div class="quiz-item__name">
-						        <h2 class="quiz-title">{{quiz.title}}</h2>
+						        <h2 class="quiz-title" editable-text="quiz.title" onbeforesave="updateQuizName(quiz._id, $data)">{{quiz.title || "Empty"}}</h2>
+						        <span class="quiz-question-count">{{quiz.questions.length}} questions</span>
 						    </div>
 					        
 					        <div class="quiz-item__edited-by">
-						        <span class="edited-by-label">Edited by</span>
-						        <span class="edited-by-author">{{quiz.authorID.name}}</span>
+						        <span class="edited-by-label">Edited by <span class="edited-by-author">{{quiz.authorID.name}}</span></span>
 						        <span class="edited-by-date" am-time-ago="quiz.updated"></span>
 					        </div>
 					        
@@ -74,12 +74,12 @@
 				        	</div>
 				        	
 					        <div class="quiz-item__name">
-						        <h2 class="quiz-title">{{quiz.title}}</h2>
+						        <h2 class="quiz-title" editable-text="quiz.title" onbeforesave="updateQuizName(quiz._id, $data)">{{quiz.title || "Empty"}}</h2>
+						        <span class="quiz-question-count">{{quiz.questions.length}} questions</span>
 						    </div>
 					        
 					        <div class="quiz-item__edited-by">
-						        <span class="edited-by-label">Edited by</span>
-						        <span class="edited-by-author">{{quiz.authorID.name}}</span>
+						        <span class="edited-by-label">Edited by <span class="edited-by-author">{{quiz.authorID.name}}</span></span>
 						        <span class="edited-by-date" am-time-ago="quiz.updated"></span>
 					        </div>
 					        

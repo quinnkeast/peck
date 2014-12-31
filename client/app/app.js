@@ -8,6 +8,7 @@ angular.module('peckApp', [
   'ui.bootstrap',
   'angularMoment',
   'selectize',
+  'xeditable',
 ])
   .config(function ($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider) {
     $urlRouterProvider
