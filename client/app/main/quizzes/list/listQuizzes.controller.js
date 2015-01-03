@@ -81,6 +81,8 @@ angular.module('peckApp')
     $scope.isLoading = false;
     $scope.coursesVisible = true;
     $scope.numberOfQuizzesSelected = 0;
+    $scope.order = 'updated';
+    
     bulkQuizzesSelected.reset();    
     
     // Get some data
@@ -92,6 +94,10 @@ angular.module('peckApp')
 
     $scope.hideCourses = function() {
 	    $scope.coursesVisible = false;
+    };
+    
+    $scope.setOrder = function(value) {
+	  	$scope.order = value;
     };
         
     // Create a new quiz
@@ -119,15 +125,16 @@ angular.module('peckApp')
 	// Triggered whenever a quiz is checked or unchecked.
 	$scope.quizSelectedForBulkAction = function(quiz) {
 		
-		if (quiz.isSelectedForBulkAction) {
+		if (quiz.isSelectedForBulkAction == false || !quiz.isSelectedForBulkAction) {
 			
 			bulkQuizzesSelected.addQuiz(quiz._id);
+			quiz.isSelectedForBulkAction = true;
 			
-		} else {
+		} else if (quiz.isSelectedForBulkAction == true) {
 			
 			bulkQuizzesSelected.removeQuiz(quiz._id);
 			quiz.isSelectedForBulkAction = false;
-			
+				
 		}
 	
 		$scope.numberOfQuizzesSelected = bulkQuizzesSelected.currentLength();
@@ -138,7 +145,7 @@ angular.module('peckApp')
 	    
 	    $state.go("activeQuiz", {id: quizID});
 	    
-    }
+    };
 	    
 	$scope.takeQuizzesInBulk = function() {
 		

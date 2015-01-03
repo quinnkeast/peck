@@ -15,7 +15,7 @@ var UserSchema = new Schema({
 		hasSeenDashboardTour: Boolean,	
 	},
 	name: String,
-	role: { type: String, default: 'user' },
+	role: { type: String, default: 'student' },
 	email: { type: String, lowercase: true },
 	hashedPassword: String,
 	provider: String,

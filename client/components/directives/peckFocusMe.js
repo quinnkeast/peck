@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('peckApp')
-	.directive('focusMe', function($timeout) {
+	.directive('peckFocusMe', function($timeout) {
 		return {
 			scope: { trigger: '@focusMe' },
 			link: function(scope, element) {

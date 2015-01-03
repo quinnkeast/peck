@@ -4,7 +4,7 @@ angular.module('peckApp')
   .controller('SignupCtrl', function ($scope, Auth, $location) {
     $scope.user = {};
     $scope.errors = {};
-
+	
     $scope.register = function(form) {
       $scope.submitted = true;
 
