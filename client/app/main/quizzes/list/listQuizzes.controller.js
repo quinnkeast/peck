@@ -80,7 +80,8 @@ angular.module('peckApp')
     // Here we go!
     $scope.isLoading = false;
     $scope.coursesVisible = true;
-    $scope.numberOfQuizzesSelected = 0;
+    $scope.filters = {};
+    $scope.filters.search = '';
     $scope.order = 'updated';
     
     bulkQuizzesSelected.reset();    
@@ -122,23 +123,60 @@ angular.module('peckApp')
 		
 	};
 	
-	// Triggered whenever a quiz is checked or unchecked.
 	$scope.quizSelectedForBulkAction = function(quiz) {
 		
-		if (quiz.isSelectedForBulkAction == false || !quiz.isSelectedForBulkAction) {
-			
+		// If it isn't already selected for bulk action, select it.
+		if (!quiz.isSelectedForBulkAction) {
 			bulkQuizzesSelected.addQuiz(quiz._id);
 			quiz.isSelectedForBulkAction = true;
 			
-		} else if (quiz.isSelectedForBulkAction == true) {
-			
+		// Otherwise, deselect it and remove it from bulkQuizzesSelected.	
+		} else {
 			bulkQuizzesSelected.removeQuiz(quiz._id);
 			quiz.isSelectedForBulkAction = false;
-				
 		}
+	};
 	
-		$scope.numberOfQuizzesSelected = bulkQuizzesSelected.currentLength();
+	$scope.removeQuizFromBulkActions = function(quiz) {
+		if (quiz.isSelectedForBulkAction === true) {
+			bulkQuizzesSelected.removeQuiz(quiz._id);
+			quiz.isSelectedForBulkAction = false;
+		}
+	};
 	
+	$scope.addQuizToBulkActions = function(quiz) {
+		if (quiz.isSelectedForBulkAction === false || !quiz.isSelectedForBulkAction) {
+			bulkQuizzesSelected.addQuiz(quiz._id);
+			quiz.isSelectedForBulkAction = true;
+		}
+	};
+	
+	// Check or uncheck all quizzes. Depends on allQuizzesChecked(group)
+	// to determine if it should be checking all, or unchecking all.
+	$scope.checkAllQuizzes = function(group) {
+		var newValue = !$scope.allQuizzesChecked(group);
+		
+		_.each(group.quizzes, function(quiz) {
+			// If all quizzes are already selected, uncheck them all.
+			if (!newValue === true) {
+				$scope.removeQuizFromBulkActions(quiz);
+			// Check them all.
+			} else {
+				// Only add to bulk actions if it isn't already there.
+				if (!quiz.isSelectedForBulkAction) {
+					$scope.addQuizToBulkActions(quiz);
+				}
+			}
+		});	
+	};
+  
+	// Returns true if and only if all quizzes are selected.
+	$scope.allQuizzesChecked = function(group) {
+		var areAllQuizzesChecked = _.reduce(group.quizzes, function(result, quiz) {
+			return result + (quiz.isSelectedForBulkAction ? 1 : 0);
+		}, 0);
+				
+		return (areAllQuizzesChecked === group.quizzes.length);
 	};
 
     $scope.startTest = function(quizID) {
@@ -152,6 +190,10 @@ angular.module('peckApp')
 		var quizIDs = bulkQuizzesSelected.getQuizzes();
 	    $state.go("activeQuiz", {id: quizIDs}); 
 	    
+	};
+	
+	$scope.numberOfQuizzesSelected = function() {
+		return bulkQuizzesSelected.currentLength();
 	};
 		
 	}).service('bulkQuizzesSelected', function() {
@@ -175,7 +217,11 @@ angular.module('peckApp')
 		};
 		
 		var currentLength = function() {
-			return quizList.length;
+			if (quizList.length !== 0) {
+				return quizList.length;
+			} else {
+				return false;
+			}
 		}
 		
 		// Private functions

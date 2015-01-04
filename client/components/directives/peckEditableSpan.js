@@ -21,6 +21,7 @@ angular.module('peckApp')
 				var form = angular.element(element.children()[1]);
 				var input = angular.element(element.children()[1][0]);
 				var originalText = scope.text;
+				
 				span.bind('click', function(event) {
 					input[0].value = scope.text;
 					startEdit();

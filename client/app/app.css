@@ -142,7 +142,12 @@ input {
 		margin: 0 0 0 15px;
 		display: inline-block;
 		vertical-align: top;
-		width: 200px;
+		width: 120px;
+	}
+	
+	.actions__filter .clear-search {
+		margin: 10px 0 0 0;
+		color: #acaca1;
 	}
 
 .actions__toolbar {
@@ -160,6 +165,7 @@ input {
 
 	.sort .selected {
 		font-weight: bold;
+		color: #83949b;
 	}
 
 	.sort__checker {
@@ -182,15 +188,24 @@ input {
 		display: inline-block;
 		width: 270px;
 		margin: 0 15px;
+		cursor: pointer;
 	}
 	
 	.sort__dates {
 		display: inline-block;
 		width: 150px;
+		cursor: pointer;
 	}
 	
 	.sort__edited-by {
-		display: inline-block;		
+		display: inline-block;
+		cursor: pointer;		
+	}
+	
+	.sort__name-questions:hover,
+	.sort__dates:hover,
+	.sort__edited-by:hover {
+		color: #83949b;
 	}
 
 .quiz-box {

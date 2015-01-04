@@ -10,7 +10,8 @@
 			    <div class="actions">
 				    
 				    <div class="actions__filter">
-					    <h1 class="filter-label">All Quizzes</h1><input type="text" class="filter-search" ng-class="{ 'screens-are-selected': numberOfQuizzesSelected }" placeholder="Search">
+					    <h1 class="filter-label">All Quizzes</h1><input type="text" ng-model="filters.search.title" class="filter-search" ng-class="{ 'screens-are-selected': numberOfQuizzesSelected }" placeholder="Search">
+					    <span ng-show="filters.search" class="glyphicon glyphicon-remove-circle clear-search" ng-click=" filters.search = '' "></span>
 				    </div>
 				    
 					<!-- Button trigger modal -->				
@@ -18,7 +19,7 @@
 			    		<a class="btn" ng-click="showCourses()"><span class="glyphicon glyphicon-th-large"></span></a>
 			    		<a class="btn" ng-click="hideCourses()"><span class="glyphicon glyphicon-th-list"></span></a>
 						<a class="btn btn-primary btn-large create-quiz-button" ng-click="createQuiz()">Create new quiz</a>
-						<a class="btn btn-primary btn-large take-test-button" ng-click="takeQuizzesInBulk()" ng-disabled="!numberOfQuizzesSelected"><span ng-hide="numberOfQuizzesSelected">Take quiz</span><span ng-show="numberOfQuizzesSelected">Take quizzes ({{numberOfQuizzesSelected}})</a>
+						<a class="btn btn-primary btn-large take-test-button" ng-click="takeQuizzesInBulk()" ng-disabled="!numberOfQuizzesSelected"><span ng-hide="numberOfQuizzesSelected()">Take quiz</span><span ng-show="numberOfQuizzesSelected()">Take quizzes ({{numberOfQuizzesSelected()}})</a>
 					</div>
 					
 			    </div>
@@ -65,19 +66,19 @@
 		    
 	    <div class="col-lg-12">
 		    			    			    
-		    <div ng-repeat="group in groups" ng-if="coursesVisible">
+		    <div ng-repeat="group in groups" ng-if="coursesVisible" ng-show="(group.quizzes | filter:filters.search).length">
 
     		    <div class="quiz-box">
 
 				    <div class="course-group">
 					    <div class="course-group__checker">
-							<input type="checkbox" ng-checked="" ng-click="">
+							<input type="checkbox" ng-checked="allQuizzesChecked(group)" ng-click="checkAllQuizzes(group)">
 			        	</div>
 					    <h3 class="course-group__label">{{group.label}}</h3>
 				    </div>
 				    
 				    <div class="quiz-list">
-				        <div class="quiz-item" ng-class="{'item-active': quiz.isSelectedForBulkAction === true}" ng-controller="ListQuizzes.Single.Ctrl" ng-repeat="quiz in group.quizzes | orderBy: order" ng-click="quizSelectedForBulkAction(quiz)">
+				        <div class="quiz-item" ng-class="{'item-active': quiz.isSelectedForBulkAction === true}" ng-controller="ListQuizzes.Single.Ctrl" ng-repeat="quiz in group.quizzes | orderBy: order | filter:filters.search" ng-click="quizSelectedForBulkAction(quiz)">
 				        
 				        	<div class="quiz-item__checker">
 								<input type="checkbox" ng-checked="quiz.isSelectedForBulkAction" ng-click="quizSelectedForBulkAction(quiz)" peck-prevent-bubbling>
