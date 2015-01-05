@@ -1,0 +1,30 @@
+<div class="quiz-item" ng-class="{'item-active': quiz.isSelectedForBulkAction === true}" ng-controller="ListQuizzes.Single.Ctrl" ng-click="quizSelectedForBulkAction(quiz)">
+				        
+	<div class="quiz-item__checker">
+		<input type="checkbox" ng-checked="quiz.isSelectedForBulkAction" ng-click="quizSelectedForBulkAction(quiz)" peck-prevent-bubbling>
+	</div>
+	
+	<div class="quiz-item__image">
+	    <span class="quiz-thumbnail"></span>
+	</div>
+	
+	<div class="quiz-item__name">
+	    <peck-editable-span peck-prevent-bubbling model="quiz.title" on-ready="updateQuizName(quiz._id, quiz.title)" span-class="quiz-title" input-class="quiz-title-input" input-type="text" class="editable-span"></peck-editable-span>
+	     <span class="quiz-question-count">{{quiz.questions.length}} questions</span>
+	</div>
+	
+	<div class="quiz-item__dates">
+	    <span class="date-label date-label--stroke">Last taken <span class="last-taken-date" am-time-ago="quiz.updated"></span></span>
+		<span class="date-label">Edited <span class="edited-by-date" am-time-ago="quiz.updated"></span></span>
+	</div>
+	
+	<div class="quiz-item__editor">
+	    <span class="editor-avatar"></span>
+	</div>
+	
+	<div class="quiz-item__actions" peck-prevent-bubbling>
+	    <a href="/main/quizzes/{{quiz._id}}/edit" class="btn btn-default inline-edit-button">Edit quiz</a>
+	    <a ng-click="startTest(quiz._id)" class="btn btn-primary inline-test-button">Take quiz</a>
+	</div>
+					        
+</div><!-- /quiz-item -->

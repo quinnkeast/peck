@@ -10,8 +10,8 @@
 			    <div class="actions">
 				    
 				    <div class="actions__filter">
-					    <h1 class="filter-label">All Quizzes</h1><input type="text" ng-model="filters.search.title" class="filter-search" ng-class="{ 'screens-are-selected': numberOfQuizzesSelected }" placeholder="Search">
-					    <span ng-show="filters.search" class="glyphicon glyphicon-remove-circle clear-search" ng-click=" filters.search = '' "></span>
+					    <h1 class="filter-label">All Quizzes</h1><input type="text" ng-model="filters.search.title" class="filter-search" ng-class="{ 'screens-are-selected': numberOfQuizzesSelected() }" placeholder="Search">
+					    <span ng-hide="!filters.search.title" class="glyphicon glyphicon-remove-circle clear-search" ng-click="filters.search = '' "></span>
 				    </div>
 				    
 					<!-- Button trigger modal -->				
@@ -19,7 +19,7 @@
 			    		<a class="btn" ng-click="showCourses()"><span class="glyphicon glyphicon-th-large"></span></a>
 			    		<a class="btn" ng-click="hideCourses()"><span class="glyphicon glyphicon-th-list"></span></a>
 						<a class="btn btn-primary btn-large create-quiz-button" ng-click="createQuiz()">Create new quiz</a>
-						<a class="btn btn-primary btn-large take-test-button" ng-click="takeQuizzesInBulk()" ng-disabled="!numberOfQuizzesSelected"><span ng-hide="numberOfQuizzesSelected()">Take quiz</span><span ng-show="numberOfQuizzesSelected()">Take quizzes ({{numberOfQuizzesSelected()}})</a>
+						<a class="btn btn-primary btn-large take-test-button" ng-click="takeQuizzesInBulk()" ng-disabled="!numberOfQuizzesSelected()"><span ng-hide="numberOfQuizzesSelected()">Take quiz</span><span ng-show="numberOfQuizzesSelected()">Take quizzes ({{numberOfQuizzesSelected()}})</a>
 					</div>
 					
 			    </div>
@@ -38,22 +38,18 @@
 			
 			<div class="sort">
 				
-				<div class="sort__checker">
-					<input type="checkbox" ng-checked="" ng-click="">
-				</div>
-				
 				<div class="sort__label">
-					<span class="sort__label-text">Sort:</span>
+					<span class="sort__label-text">Sort by:</span>
 				</div>
 				
 				<div class="sort__name-questions">
-					<span class="sort-by-name" ng-click="setOrder('name')" ng-class="{true:'selected', false:''}[order=='name']">Name</span> <span class="bar"> | </span> <span class="sort-by-question-count" ng-click="" ng-class="{true:'selected', false:''}[order=='']">No. of Questions</span>
+					<span class="sort-by-name" ng-click="toggleSort('title')" ng-class="{true:'selected', false:''}[sort.by=='title']">Name <span class="glyphicon glyphicon-chevron-down" ng-if="sort.by == 'title' && sort.reverse"></span><span class="glyphicon glyphicon-chevron-up" ng-if="sort.by == 'title' && !sort.reverse"></span></span> <span class="bar"> | </span> <span class="sort-by-question-count" ng-click="toggleSort('questions.length')" ng-class="{true:'selected', false:''}[order=='questions.length']">No. of Questions <span class="glyphicon glyphicon-chevron-down" ng-if="sort.by == 'questions.length' && sort.reverse"></span><span class="glyphicon glyphicon-chevron-up" ng-if="sort.by == 'questions.length' && !sort.reverse"></span></span>
 				</div>
 				<div class="sort__dates">
-					<span class="sort-by-test-date" ng-click="setOrder('dateLastTaken')" ng-class="{true:'selected', false:''}[order=='dateLastTaken']">Taken</span> <span class="bar"> | </span> <span class="sort-by-edit-date" ng-click="setOrder('updated')" ng-class="{true:'selected', false:''}[order=='updated']">Edited</span>
+					<span class="sort-by-test-date" ng-click="toggleSort('dateLastTaken')" ng-class="{true:'selected', false:''}[sort.by=='dateLastTaken']">Taken</span> <span class="bar"> | </span> <span class="sort-by-edit-date" ng-click="toggleSort('updated')" ng-class="{true:'selected', false:''}[sort.by=='updated']">Edited <span class="glyphicon glyphicon-chevron-up" ng-if="sort.by == 'updated' && sort.reverse"></span><span class="glyphicon glyphicon-chevron-down" ng-if="sort.by == 'updated' && !sort.reverse"></span></span>
 				</div>
 				<div class="sort__edited-by">
-					<span class="sort-by-author" ng-click="setOrder('authorID.name')" ng-class="{true:'selected', false:''}[order=='authorID.name']">Author</span>
+					<span class="sort-by-author" ng-click="toggleSort('authorID.name')" ng-class="{true:'selected', false:''}[sort.by=='authorID.name']">Author <span class="glyphicon glyphicon-chevron-down" ng-if="sort.by == 'authorID.name' && sort.reverse"></span><span class="glyphicon glyphicon-chevron-up" ng-if="sort.by == 'authorID.name' && !sort.reverse"></span></span>
 				</div>
 				
 			</div>
@@ -72,42 +68,16 @@
 
 				    <div class="course-group">
 					    <div class="course-group__checker">
-							<input type="checkbox" ng-checked="allQuizzesChecked(group)" ng-click="checkAllQuizzes(group)">
+							<input type="checkbox" ng-checked="areAllQuizzesChecked(group.quizzes)" ng-click="selectAllQuizzesForBulkAction(group.quizzes)">
 			        	</div>
 					    <h3 class="course-group__label">{{group.label}}</h3>
 				    </div>
 				    
 				    <div class="quiz-list">
-				        <div class="quiz-item" ng-class="{'item-active': quiz.isSelectedForBulkAction === true}" ng-controller="ListQuizzes.Single.Ctrl" ng-repeat="quiz in group.quizzes | orderBy: order | filter:filters.search" ng-click="quizSelectedForBulkAction(quiz)">
-				        
-				        	<div class="quiz-item__checker">
-								<input type="checkbox" ng-checked="quiz.isSelectedForBulkAction" ng-click="quizSelectedForBulkAction(quiz)" peck-prevent-bubbling>
-				        	</div>
-				        	
-				        	<div class="quiz-item__image">
-						        <span class="quiz-thumbnail"></span>
-					        </div>
-				        	
-					        <div class="quiz-item__name">
-						        <peck-editable-span peck-prevent-bubbling model="quiz.title" on-ready="updateQuizName(quiz._id, quiz.title)" span-class="quiz-title" input-class="quiz-title-input" input-type="text" class="editable-span"></peck-editable-span>
-						         <span class="quiz-question-count">{{quiz.questions.length}} questions</span>
-						    </div>
-					        
-					        <div class="quiz-item__dates">
-						        <span class="date-label date-label--stroke">Last taken <span class="last-taken-date" am-time-ago="quiz.updated"></span></span>
-								<span class="date-label">Edited <span class="edited-by-date" am-time-ago="quiz.updated"></span></span>
-					        </div>
-					        
-					        <div class="quiz-item__editor">
-						        <span class="editor-avatar"></span>
-					        </div>
-					        
-					        <div class="quiz-item__actions">
-						        <a href="/main/quizzes/{{quiz._id}}/edit" class="btn btn-default inline-edit-button">Edit quiz</a>
-						        <a ng-click="startTest(quiz._id)" class="btn btn-primary inline-test-button">Take quiz</a>
-					        </div>
-					        					        
-					    </div><!-- /quiz-item -->
+					    
+					    <div ng-repeat="quiz in group.quizzes | orderBy:sort.by:sort.reverse | filter:filters.search">
+						    <div ng-include="'app/main/quizzes/list/views/quizItem.html'"></div>
+					    </div>
 					    
 				    </div><!-- /quiz-list -->
 
@@ -120,33 +90,18 @@
 			    <div class="quiz-box">
 
 				    <div class="course-group">
-					    <h3 class="course-label">All Quizzes</h3>
+					    <div class="course-group__checker">
+							<input type="checkbox" ng-checked="areAllQuizzesChecked(quizzes)" ng-click="selectAllQuizzesForBulkAction(quizzes)">
+			        	</div>
+					    <h3 class="course-group__label">All quizzes</h3>
 				    </div>
 	
 				    <div class="quiz-list">
-				        <div class="quiz-item" ng-repeat="quiz in quizzes | orderBy: 'updated':true" ng-click="quizSelectedForBulkAction(quiz)">
 				        
-				        	<div class="quiz-item__checker">
-								<input type="checkbox" ng-model="quiz.isSelectedForBulkAction" ng-click="quizSelectedForBulkAction(quiz)">
-				        	</div>
-				        	
-					        <div class="quiz-item__name">
-								<peck-editable-span peck-prevent-bubbling model="quiz.title" on-ready="updateQuizName(quiz._id, quiz.title)" span-class="quiz-title" input-class="quiz-title-input" input-type="text"></peck-editable-span>
-						         <span class="quiz-question-count">{{quiz.questions.length}} questions</span>
-
-						    </div>
-					        
-					        <div class="quiz-item__edited-by">
-						        <span class="edited-by-label">Edited by <span class="edited-by-author">{{quiz.authorID.name}}</span></span>
-						        <span class="edited-by-date" am-time-ago="quiz.updated"></span>
-					        </div>
-					        
-					        <div class="quiz-item__actions">
-						        <a href="/main/quizzes/{{quiz._id}}/edit" class="btn btn-default inline-edit-button">Edit quiz</a>
-						        <a ng-click="startTest(quiz._id)" class="btn btn-primary inline-test-button">Take quiz</a>
-					        </div>
-					        					        
+				        <div ng-repeat="quiz in quizzes | orderBy:sort.by:sort.reverse | filter:filters.search">
+						    <div ng-include="'app/main/quizzes/list/views/quizItem.html'"></div>
 					    </div>
+					    
 				    </div><!-- /quiz-list -->
 
 			    </div><!-- /quiz-box -->

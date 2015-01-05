@@ -22,6 +22,7 @@ angular.module('peckApp')
 	    $scope.submitQuiz = function(quiz) {
 		    
 		    $scope.submitted = true;
+		    $scope.scored = false;
 		    $scope.isLoading = true;
 		    $scope.showOverlay = true;
 		    var scoredQuiz = Quiz.getScore({"id": $stateParams.id}, quiz).$promise.then(function(scoredQuiz) {
@@ -29,6 +30,7 @@ angular.module('peckApp')
 				
 				$timeout(function(){
 					$window.scrollTo(0,0);
+					$scope.scored = true;
 					$scope.showOverlay = false;
 					$scope.quiz = scoredQuiz;
 				}, 1000);    

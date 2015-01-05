@@ -81,11 +81,19 @@ angular.module('peckApp')
     $scope.isLoading = false;
     $scope.coursesVisible = true;
     $scope.filters = {};
-    $scope.filters.search = '';
     $scope.order = 'updated';
-    
-    bulkQuizzesSelected.reset();    
-    
+    $scope.sort = { 
+		by: 'updated', 
+		reverse: true 
+	};
+        
+    $scope.toggleSort = function(value) {
+		if ($scope.sort.by === value){
+			$scope.sort.reverse = !$scope.sort.reverse;
+		}
+		$scope.sort.by = value;
+	};
+
     // Get some data
     $scope.loadQuizzes();
     
@@ -95,10 +103,6 @@ angular.module('peckApp')
 
     $scope.hideCourses = function() {
 	    $scope.coursesVisible = false;
-    };
-    
-    $scope.setOrder = function(value) {
-	  	$scope.order = value;
     };
         
     // Create a new quiz
@@ -137,46 +141,46 @@ angular.module('peckApp')
 		}
 	};
 	
-	$scope.removeQuizFromBulkActions = function(quiz) {
+	$scope.deselectQuizForBulkAction = function(quiz) {
 		if (quiz.isSelectedForBulkAction === true) {
 			bulkQuizzesSelected.removeQuiz(quiz._id);
 			quiz.isSelectedForBulkAction = false;
 		}
 	};
 	
-	$scope.addQuizToBulkActions = function(quiz) {
+	$scope.selectQuizForBulkAction = function(quiz) {
 		if (quiz.isSelectedForBulkAction === false || !quiz.isSelectedForBulkAction) {
 			bulkQuizzesSelected.addQuiz(quiz._id);
 			quiz.isSelectedForBulkAction = true;
 		}
 	};
 	
-	// Check or uncheck all quizzes. Depends on allQuizzesChecked(group)
+	// Check or uncheck all quizzes. Depends on areAllQuizzesChecked(group)
 	// to determine if it should be checking all, or unchecking all.
-	$scope.checkAllQuizzes = function(group) {
-		var newValue = !$scope.allQuizzesChecked(group);
+	$scope.selectAllQuizzesForBulkAction = function(source) {
+		var newValue = !$scope.areAllQuizzesChecked(source);
 		
-		_.each(group.quizzes, function(quiz) {
+		_.each(source, function(quiz) {
 			// If all quizzes are already selected, uncheck them all.
 			if (!newValue === true) {
-				$scope.removeQuizFromBulkActions(quiz);
+				$scope.deselectQuizForBulkAction(quiz);
 			// Check them all.
 			} else {
 				// Only add to bulk actions if it isn't already there.
 				if (!quiz.isSelectedForBulkAction) {
-					$scope.addQuizToBulkActions(quiz);
+					$scope.selectQuizForBulkAction(quiz);
 				}
 			}
 		});	
 	};
   
 	// Returns true if and only if all quizzes are selected.
-	$scope.allQuizzesChecked = function(group) {
-		var areAllQuizzesChecked = _.reduce(group.quizzes, function(result, quiz) {
+	$scope.areAllQuizzesChecked = function(source) {
+		var areAllQuizzesChecked = _.reduce(source, function(result, quiz) {
 			return result + (quiz.isSelectedForBulkAction ? 1 : 0);
 		}, 0);
 				
-		return (areAllQuizzesChecked === group.quizzes.length);
+		return (areAllQuizzesChecked === source.length);
 	};
 
     $scope.startTest = function(quizID) {

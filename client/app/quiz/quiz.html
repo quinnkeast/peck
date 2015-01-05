@@ -1,43 +1,45 @@
-<div ng-include="'components/navbar/navbar.html'"></div>
-<div class="overlay" ng-hide="!showOverlay"></div>
-<div class="container">
-  <div class="row">
-    
-    <div class="col-lg-12">
-      <p>You're taking:</p>
-      <ul>
-	      <li ng-repeat="title in quiz.titles">{{title}}</li>
-      </ul>
-    </div>
-    
-    <div class="col-lg-8 col-lg-offset-2" ng-show="submitted">
-	    <h3>You got {{quiz.results.percentage | percentage:0}}.</h3>
-	    <a class="btn btn-primary" ng-click="restart()">Take quiz again</a>
-    </div>
-    
-    <div class="col-lg-8 col-lg-offset-2">
-	    
-	    <div ng-repeat="question in quiz.questions" class="question-item" ng-class="{ 'question-correct': submitted === true && question.isCorrect === true, 'question-incorrect': submitted === true && !question.isCorrect }">
-		    <p>{{question.question}}</p>
-		    <ol type="a">
-			    <li ng-repeat="answer in question.answers" ng-class="">
-			    	<label class="control-label">
-				    	<input type="radio" name="question-{{question._id}}" id="answer-{{answer._id}}" value="{{answer._id}}" ng-model="question.selectedAnswer">
-				    	<span class="answer-text" ng-class="{ 'answer-correct': submitted === true && question.selectedAnswer === answer._id && question.isCorrect === true, 'answer-incorrect': submitted === true && !question.isCorrect && answer.wrongAnswer === true, 'answer-should-be': submitted === true && !question.isCorrect && answer.correctAnswer === true }"> {{answer.text}}</span>
-			    	</label>
+<div ng-include="'components/testbar/testbar.html'"></div>
+
+<div class="overlay" ng-show="showOverlay"></div>
+
+<div class="container" ng-show="scored">
+	<div class="row">  
+	    <div class="col-lg-8 col-lg-offset-2">
+		    <div class="results-box">
+			    <h3 class="results-box__message">Your score is {{quiz.results.percentage | percentage:0}}.</h3>
+			    <p class="results-box__submessage">(You got {{quiz.results.score}} out of {{quiz.results.numberOfQuestions}} correct.)</p>
+			    <a class="btn btn-primary results-box__retake" ng-click="restart()">Retake quiz</a>
+		    </div>
+	    </div>
+	</div>
+</div>
+
+<div class="container test-box">
+    <div class="row">
+	    <div class="col-md-12 col-md-offset-2">
+		    
+		    <ol class="question-items">
+			    <li ng-repeat="question in quiz.questions" class="question-item" ng-class="{ 'question-correct': submitted === true && question.isCorrect === true, 'question-incorrect': submitted === true && !question.isCorrect }">
+				    <p>{{question.question}}</p>
+				    <ol type="a">
+					    <li ng-repeat="answer in question.answers" class="answer">
+					    	<label class="control-label">
+						    	<input type="radio" name="question-{{question._id}}" id="answer-{{answer._id}}" value="{{answer._id}}" ng-model="question.selectedAnswer">
+						    	<span class="answer-text" ng-class="{ 'answer--correct': submitted === true && question.selectedAnswer === answer._id && question.isCorrect === true, 'answer--incorrect': submitted === true && !question.isCorrect && answer.wrongAnswer === true, 'answer--should-be': submitted === true && !question.isCorrect && answer.correctAnswer === true, 'answer--selected': submitted === false && question.selectedAnswer === answer._id }"> {{answer.text}}</span>
+					    	</label>
+					    </li>
+				    </ol>
 			    </li>
 		    </ol>
-	    </div>
+
+	    </div><!-- /col-lg-8 -->
+    </div><!-- /row -->
 	    
-    </div>
+	<div class="row">
+	    
+	    <div class="col-md-8 col-md-offset-2" ng-hide="submitted">
+		    <a class="btn btn-primary" ng-click="submitQuiz(quiz)">Submit quiz</a>
+	    </div>
     
-    <div class="col-lg-8 col-lg-offset-2" ng-show="submitted">
-	    <a class="btn btn-primary" ng-click="restart()">Take quiz again</a>
-    </div>
-    
-    <div class="col-lg-8 col-lg-offset-2" ng-hide="submitted">
-	    <a class="btn btn-primary" ng-click="submitQuiz(quiz)">Submit quiz</a>
-    </div>
-    
-  </div>
-</div>
+	</div><!-- /row -->
+</div><!-- /test-box -->
